@@ -14,7 +14,7 @@ read(Key, Db) ->
   E = [X || X <- Db, element(1, X) =:= Key],
   case E of
     [] -> {error, instance};
-    _ -> [H | _] = E, {ok, element(2, H)}
+    [{_, Value} | _] -> {ok, Value}
   end.
 
 match(Element, Db)
