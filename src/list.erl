@@ -23,7 +23,7 @@ reverse([H | T], R) -> reverse(T, [H | R]).
 
 concatenate([], Result) -> Result;
 concatenate([H | T], Result)
-  -> concatenate(T, Result ++ H).
+  -> concatenate(T, arr_r:append(Result, [H])).
 
 flatten([], Result) -> Result;
 flatten([H | T], Result) ->
