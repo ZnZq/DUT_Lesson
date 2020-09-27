@@ -3,7 +3,7 @@
 
 -import(list, [create/1]).
 -import(db_r, [filter/3]).
--export([all/1, odd/1, even/1, len/1]).
+-export([all/1, odd/1, even/1, len/1, append/2]).
 
 all(N) ->
   {ok, len(db_r:filter(
@@ -26,8 +26,12 @@ even(N) ->
     fun(X) -> print(X) end
   ))}.
 
-len(L) -> len(L, 0).
 print(X) -> io:format("Number: ~p~n", [X]).
 
+len(L) -> len(L, 0).
 len([], Total) -> Total;
 len([_ | T], Total) -> len(T, Total + 1).
+
+append([], Tail) -> Tail;
+append([H | T], Tail)
+  -> [H | append(T, Tail)].
