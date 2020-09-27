@@ -1,9 +1,10 @@
 -module(sum).
 -author("ZnZ").
 
--export([sum/1]).
+-export([sum/1, sum/2]).
 
-sum(N) -> summer(N, 0).
+sum(N) -> summer(1, N, 0).
+sum(X, N) -> summer(X, N, 0).
 
-summer(0, Total) -> Total;
-summer(N, Total) -> summer(N - 1, Total + N).
+summer(X, X, Total) -> Total + X;
+summer(X, N, Total) -> summer(X, N - 1, Total + N).
