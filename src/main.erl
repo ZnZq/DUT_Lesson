@@ -1,5 +1,6 @@
 -module(main).
 -author("ZnZ").
+-import(demo, []).
 
 -export([main1/0, main2/0]).
 
