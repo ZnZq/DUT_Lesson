@@ -4,7 +4,7 @@
 -export([new/0, write/3, delete/2, destroy/1, read/2, match/2]).
 
 new() -> [].
-destroy(_) -> ok.
+destroy(_Db) -> ok.
 
 write(Key, Element, Db) ->
   Array = delete(Key, Db),
