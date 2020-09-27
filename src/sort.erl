@@ -11,12 +11,12 @@ fast([H | T]) ->
   Right = fast([X || X <- T, X > H]),
   list:concatenate([Left, [H], Right]).
 
-% TODO
-merge([]) -> [];
+merge([_] = L) -> L;
 merge(List) ->
   {Left, Right} = split(List),
-  SortedLeft = merge(Left),
-  SortedRight = merge(Right).
+  L = merge(Left),
+  R = merge(Right),
+  q.
 
 split(List) ->
   Center = round(arr_r:len(List) / 2),

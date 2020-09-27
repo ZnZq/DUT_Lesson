@@ -6,25 +6,20 @@
 -export([all/1, odd/1, even/1, len/1, append/2]).
 
 all(N) ->
-  {ok, len(db_r:filter(
-    list:create(N),
-    fun(_) -> true end,
-    fun(X) -> print(X) end
-  ))}.
+  { ok, len(num_list(N, fun(_) -> true end)) }.
 
 odd(N) ->
-  {ok, len(db_r:filter(
-    list:create(N),
-    fun(X) -> X rem 2 =/= 0 end,
-    fun(X) -> print(X) end
-  ))}.
+  { ok, len(num_list(N, fun(X) -> X rem 2 =/= 0 end)) }.
 
 even(N) ->
-  {ok, len(db_r:filter(
+  { ok, len(num_list(N, fun(X) -> X rem 2 =:= 0 end)) }.
+
+num_list(N, Filter) ->
+  db_r:filter(
     list:create(N),
-    fun(X) -> X rem 2 =:= 0 end,
+    Filter,
     fun(X) -> print(X) end
-  ))}.
+  ).
 
 print(X) -> io:format("Number: ~p~n", [X]).
 
