@@ -1,7 +1,7 @@
 -module(db_r).
 -author("ZnZ").
 
--export([new/0, write/3, delete/2, destroy/1, read/2, match/2]).
+-export([new/0, write/3, delete/2, destroy/1, read/2, match/2, filter/3]).
 
 new() -> [].
 destroy(_Db) -> ok.
