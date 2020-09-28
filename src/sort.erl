@@ -11,12 +11,18 @@ fast([H | T]) ->
   Right = fast([X || X <- T, X > H]),
   list:concatenate([Left, [H], Right]).
 
-merge([_] = L) -> L;
+merge(List) when length(List) =< 1 -> List;
 merge(List) ->
   {Left, Right} = split(List),
-  L = merge(Left),
-  R = merge(Right),
-  q.
+  compare(merge(Left), merge(Right)).
+
+compare([], Right) -> Right;
+compare(Left, []) -> Left;
+compare([LH | LT] = Left, [RH | RT] = Right) ->
+  if
+    LH < RH -> [LH | compare(LT, Right)];
+    true -> [RH | compare(RT, Left)]
+  end.
 
 split(List) ->
   Center = round(arr_r:len(List) / 2),
