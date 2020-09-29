@@ -41,14 +41,12 @@ loop(Db) ->
       Pid ! {Pid, Write},
       loop(Write);
     {Pid, read, Key} ->
-      Read = read_p(Key, Db),
-      Pid ! {Pid, Read},
+      Pid ! {Pid, read_p(Key, Db)},
       loop(Db);
     {Pid, match, Element} ->
-      Match = match_p(Element, Db),
-      Pid ! {Pid, Match},
+      Pid ! {Pid, match_p(Element, Db)},
       loop(Db);
-    _Other -> unknown
+    _Other -> {error, unknown}
   end.
 
 delete_p(Key, Db)
