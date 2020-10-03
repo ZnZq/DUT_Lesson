@@ -35,8 +35,8 @@ to_list(X) when is_integer(X) ->
   integer_to_list(X);
 to_list(X) when is_float(X) ->
   float_to_list(X, [{decimals, 4}, compact]);
-to_list(_) ->
-  {error, unknown_type}.
+to_list(X) ->
+  {error, unknown_type, X}.
 
 print(X) ->
   case lists:keysearch(element(1, X), 1, print_format()) of
@@ -111,12 +111,22 @@ push_ns([V | Tile], group_start) ->
   [{group, V} | Tile];
 push_ns([V2 | [V1 | Tile]], Operator) ->
   case Operator of
-    plus -> [{plus, V1, V2} | Tile];
-    minus -> [{minus, V1, V2} | Tile];
-    multiply -> [{multiply, V1, V2} | Tile];
-    divide -> [{divide, V1, V2} | Tile];
+    plus -> [converter({plus, V1, V2}) | Tile];
+    minus -> [converter({minus, V1, V2}) | Tile];
+    multiply -> [converter({multiply, V1, V2}) | Tile];
+    divide -> [converter({divide, V1, V2}) | Tile];
     _ -> {error, push_ns, Operator}
   end.
+
+converter({multiply, {num, 0}, _}) -> {num, 0};
+converter({multiply, _, {num, 0}}) -> {num, 0};
+converter({multiply, {num, 1}, X}) -> X;
+converter({multiply, X, {num, 1}}) -> X;
+converter({plus, {num, 0}, X}) -> X;
+converter({plus, X, {num, 0}}) -> X;
+converter({minus, {num, 0}, X}) -> X;
+converter({minus, X, {num, 0}}) -> X;
+converter(X) -> X.
 
 priority(Operator, Default) ->
   case lists:keysearch(Operator, 1, token_priority()) of
